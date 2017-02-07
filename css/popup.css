@@ -1,0 +1,55 @@
+@import url('base.css');
+
+html {
+  width: 300px;
+}
+
+body {
+  margin: 10px;
+  padding: 0;
+}
+
+#presets {
+  margin: 0;
+  overflow: auto;
+  max-height: 300px;
+}
+
+  #presets li {
+    list-style: none;
+    margin: 0;
+  }
+  
+  #presets .preset a {
+    color: #333;
+    display: block;
+    text-decoration: none;
+    padding: 10px;
+    padding-left: 31px;
+    background-image: url('../img/application-form.png');
+    background-repeat: no-repeat;
+    background-position: 10px;
+  }
+  
+  #presets .preset a:focus {
+    outline: none;
+  }
+  
+  #presets .preset:hover {
+    background-color: #eee;
+    text-decoration: underline;
+  }
+  
+#footer {
+  margin-top: 10px;
+  padding-top: 10px;
+  text-align: right;
+  border-top: 1px solid #999;
+}
+
+  #scraper {
+    float: left;
+    text-decoration: none;
+    font-weight: bold;
+    color: #333;
+  }

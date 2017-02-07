@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<!-- Copyright (c) 2010, David Heaton
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+    * Redistributions of source code must retain the above copyright notice,
+      this list of conditions and the following disclaimer.
+ 
+    * Redistributions in binary form must reproduce the above copyright
+      notice, this list of conditions and the following disclaimer in the
+      documentation and/or other materials provided with the distribution.
+ 
+     * Neither the name of bit155 nor the names of its contributors
+       may be used to endorse or promote products derived from this software
+       without specific prior written permission.
+ 
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE. -->
+<html>
+<head>
+  <title>Scraper</title>
+  
+  <link rel="stylesheet" href="lib/jquery-ui-1.8.6/css/custom-theme/jquery-ui-1.8.6.custom.css" type="text/css">
+  <link rel="stylesheet" href="css/viewer.css" type="text/css">
+
+  <script type="text/javascript" src="lib/jquery-ui-1.8.6/js/jquery-1.4.2.js"></script>
+  <script type="text/javascript" src="lib/jquery-ui-1.8.6/js/jquery-ui-1.8.6.js"></script>
+  <script type="text/javascript" src="lib/datatables-1.7.4/js/jquery.dataTables.js"></script>
+  <script type="text/javascript" src="lib/jquery.tablednd_0_5.js"></script>
+  <script type="text/javascript" src="lib/jquery.layout-1.2.0.js"></script>
+  <script type="text/javascript" src="js/shared.js"></script>
+  <script type="text/javascript" src="js/bit155/csv.js"></script>
+  <script type="text/javascript" src="js/bit155/attr.js"></script>
+  <script type="text/javascript" src="js/bit155/scraper.js"></script>
+  <script type="text/javascript" src="js/viewer.js"></script>
+
+</head>
+<body>
+  <div id="about">
+    <h1>Scraper</h1>
+    <h2>By Dave Heaton and <a href="https://www.gameandme.fr" target="_blank">Yohann Nizon</a></h2>
+    <p>
+      Built on the shoulders of
+      <a href="http://jquery.com" target="_blank">jQuery</a> and 
+      <a href="http://jqueryui.com" target="_blank">jQuery UI</a>, as well as 
+      <a href="http://layout.jquery-dev.net/" title="UI.Layout Plug-in - Home 2" target="_blank">jQuery Layout</a>,
+      <a href="http://www.datatables.net/" title="DataTables (table plug-in for jQuery)" target="_blank">DataTables</a> and
+      <a href="http://www.isocra.com/2008/02/table-drag-and-drop-jquery-plugin/" title="Table Drag and Drop JQuery plugin | Isocra" target="_blank">TableDnD</a>
+      plugins.
+    </p>
+    <p>
+      Some of the icons used in this extension are from the generous
+      <a href="http://p.yusukekamiyamane.com/" target="_blank">Yusuke Kamiyamane</a>.
+    </p>
+    <dl>
+      <dt>Project Page</dt>
+      <dd><a href="http://mnmldave.github.com/scraper/" target="_blank">http://mnmldave.github.com/scraper/</a></dd>
+      <dt>License</dt>
+      <dd><a href="license.html" target="_blank">BSD License</a></dd>
+    </dl>
+  </div>
+  
+  <div id="presets">
+    <p>
+      Save your current settings as a preset to quickly restore them in the 
+      future.
+    </p>
+    <form id="presets-form">
+      <input id="presets-form-name" name="name" type="text" value="">
+      <input type="submit" value="Save">
+    </form>
+    <ul id="presets-list">
+    </ul>
+  </div>
+  
+  <form id="options" class="ui-layout-west">
+    <div id="options-header">
+      <div id="options-meta-page"></div>
+    </div>
+    
+    <div id="options-center" class="ui-layout-content">
+	  <fieldset>
+        <legend>Selector</legend>
+        <table id="options-selector-table">
+          <tr>
+            <td nowrap width="0%">
+              <select id="options-language" name="language">
+                <optgroup label="Language">
+                  <option value="jquery">jQuery</option>
+                  <option value="xpath">XPath</option>
+                </optgroup>
+              </select>
+            </td>
+            <td nowrap width="100%">
+              <input id="options-selector" name="selector" type="text" placeholder="Selector" />
+            </td>
+          </tr>
+          <tr>
+            <td>
+            </td>
+            <td>
+              <div id="options-language-help"></div>
+            </td>
+          </tr>
+        </table>
+      </fieldset>
+      
+      <fieldset>
+        <legend>Columns</legend>
+        <p></p>
+        <table id="options-attributes">
+          <thead>
+            <tr>
+              <th>&nbsp;</th>
+              <th>XPath</th>
+              <th>Name</th>
+              <th>&nbsp;</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </fieldset>
+      
+      <fieldset id="options-filters">
+        <legend>Filters</legend>
+        <input id="options-filters-empty" type="checkbox" name="filters[]" value="empty">
+        <label for="options-filters-empty" title="Results containing empty values for all attributes will not be returned.">Exclude empty results</label>
+        <br/>
+      </fieldset>
+	  
+	  <fieldset>
+        <legend>Pagination</legend>
+        <table id="options-pagination-table" style="width:100%">
+          <tr>
+            <td nowrap width="100%">
+              <input style="width:100%" id="options-pagination-url" name="pagination" type="text" value="" placeholder="Url pagination" />
+            </td>
+		  </tr>
+		  <tr>
+			<td nowrap width="100%" style="padding-top:5px">
+              Add @@ for page parameter replacement. Ex:<br/>
+			  http://www.website.com/page/@@
+            </td>            
+          </tr>   
+		  <tr >
+            <td nowrap width="100%" style="padding-top:5px">
+			  From Page <input id="options-pagination-page-from" name="page-from" value="1" type="text" placeholder="1" size="2"/>
+			  To
+			  <input id="options-pagination-page-to" name="page-to" value="10" type="text" placeholder="10" size="2"/>
+			  <input type="button" id="start_pagination_scrap" value="Start Scrap" />
+			  <br/>
+			  <span id="pagination_current_url"></span>
+            </td>
+		  </tr>
+        </table>
+      </fieldset>
+    </div>
+    
+    <div id="options-footer" class="pane-footer">
+      <table>
+        <tr>
+          <td>
+            <a id="options-presets-button" class="button" href="javascript:;">Presets...</a>
+            <a id="options-reset-button" class="button" href="javascript:;">Reset</a>
+			<a id="options-clear-button" class="button" href="javascript:;">Clear</a>
+          </td>
+          <td><input id="options-submit" type="submit" value="Scrape"></td>
+        </tr>
+      </table>
+    </div>
+  </form>
+
+  <div id="center" class="ui-layout-center">
+    <div id="results-table" class="ui-layout-content">
+    </div>
+
+    <div id="export" class="pane-footer">
+      <table>
+        <tr>
+          <td><a id="about-link" href="http://mnmldave.github.com/scraper/" target="_blank"><img src="img/question.png"></a></td>
+          <td>
+            <form action="">
+              <input id="export-google" type="submit" value="Export to Google Docs...">
+            </form>
+          </td>
+        </tr>
+    </div>
+  </div>
+</body>
+</html>

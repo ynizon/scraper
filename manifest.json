@@ -1,0 +1,27 @@
+{
+   "background": {
+      "scripts": [ "lib/jquery-ui-1.8.6/js/jquery-1.4.2.js", "js/shared.js", "js/bit155/attr.js", "js/bit155/scraper.js", "js/background.js" ]
+   },
+   "content_scripts": [ {
+      "js": [ "lib/jquery-ui-1.8.6/js/jquery-1.4.2.js", "lib/jquery-ui-1.8.6/js/jquery-ui-1.8.6.highlight.js", "js/shared.js", "js/bit155/attr.js", "js/bit155/scraper.js", "js/contentscript.js" ],
+      "matches": [ "http://*/*", "https://*/*" ],
+      "run_at": "document_start"
+   } ],
+   "description": "Scraper gets data out of web pages and into spreadsheets.",
+   "icons": {
+      "128": "img/scraper128.png",
+      "16": "img/scraper16.png",
+      "32": "img/scraper32.png",
+      "48": "img/scraper48.png"
+   },
+   "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC4RD8+TgoxV8sxlXnkr5BXi18Z1/S7hDb1O7+G6OGBa3BuEMudUrmcUMBxOaPHGogqsHJhyL2J/t3OCVEdrnPWBchIi7XHHmLbpJHXGMry43qMJFqmbzXg7ARfxK6P6Koo7MhH0IJt0O0ClPlyNYXHfKkiqUY2K+yNyI7gZaHhxQIDAQAB",
+   "manifest_version": 2,
+   "name": "Scraper",
+   "oauth2": {
+      "client_id": "713595600722-2s6ljlbm9d6icnkjum9anlrr87hj9gjk.apps.googleusercontent.com",
+      "scopes": [ "https://www.googleapis.com/auth/drive", "https://www.googleapis.com/auth/drive.file" ]
+   },
+   "permissions": [ "identity", "tabs", "contextMenus", "clipboardWrite", "unlimitedStorage", "http://*/*", "https://*/*" ],
+   "update_url": "https://clients2.google.com/service/update2/crx",
+   "version": "1.8"
+}

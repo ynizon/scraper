@@ -1,0 +1,3 @@
+Changer le JS dans chrome_ex_oauth.html
+Ajout de pagination
+Ajout du clear
